@@ -1,3 +1,4 @@
+
 [![Tests](https://github.com/szheng3/rust-individual-project-4/actions/workflows/tests.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/tests.yml)
 [![Build binary release](https://github.com/szheng3/rust-individual-project-4/actions/workflows/release.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/release.yml)
 [![Clippy](https://github.com/szheng3/rust-individual-project-4/actions/workflows/lint.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/lint.yml)
