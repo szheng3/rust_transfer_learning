@@ -2,6 +2,7 @@ mod lib;
 mod tests;
 mod onnx;
 mod image;
+mod transfer_learning;
 
 use actix_web::middleware::Logger;
 use actix_web::{get, post, App, HttpResponse, HttpServer, Responder, web};
@@ -167,6 +168,34 @@ async fn upload(mut payload: Multipart) -> impl Responder {
     }
 }
 
+
+#[post("/api/transfer/upload")]
+async fn transfer_upload(mut payload: Multipart) -> impl Responder {
+    let mut results = Vec::new();
+
+    while let Ok(Some(mut field)) = payload.try_next().await {
+        match save_file(field).await {
+            Ok(file_path) => {
+                let result = image::label(file_path.clone()).expect("TODO: panic message");
+                results.push(FileResult {
+                    message: result.to_string(),
+                });
+            }
+            Err(err) => {
+                results.push(FileResult {
+                    message: format!("Error: {}", err),
+                });
+            }
+        }
+    }
+
+    if results.is_empty() {
+        HttpResponse::NoContent().finish()
+    } else {
+        HttpResponse::Ok().json(Json(results.into_iter().next().unwrap()))
+    }
+}
+
 #[actix_web::main]
 async fn main() -> Result<(), ExitFailure> {
     if std::env::var_os("RUST_LOG").is_none() {
@@ -189,6 +218,7 @@ async fn main() -> Result<(), ExitFailure> {
             .service(upload)
             .service(api_albert)
             .service(api_summary_handler)
+            .service(transfer_upload)
             .service(Files::new("/", "./dist").index_file("index.html"))
 
             .wrap(Logger::default())
