@@ -2,7 +2,7 @@ mod lib;
 mod tests;
 mod onnx;
 mod image;
-mod transfer_learning;
+mod transfer;
 
 use actix_web::middleware::Logger;
 use actix_web::{get, post, App, HttpResponse, HttpServer, Responder, web};
@@ -176,7 +176,7 @@ async fn transfer_upload(mut payload: Multipart) -> impl Responder {
     while let Ok(Some(mut field)) = payload.try_next().await {
         match save_file(field).await {
             Ok(file_path) => {
-                let result = transfer_learning::label_transfer(file_path.clone()).expect("TODO: panic message");
+                let result = transfer::label_transfer(file_path.clone()).expect("TODO: panic message");
                 results.push(FileResult {
                     message: result.to_string(),
                 });

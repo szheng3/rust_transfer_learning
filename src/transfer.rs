@@ -8,6 +8,11 @@ use image::GenericImageView;
 use serde_json::Value;
 use tch::{nn, vision, Device, Kind, Tensor};
 use tch::nn::ModuleT;
+use tch::vision::{
+    alexnet, convmixer, densenet, efficientnet, imagenet, inception, mobilenet, resnet, squeezenet,
+    vgg,
+};
+use tokenizers::tokenizer::{Result, Tokenizer};
 
 fn normalize_image(image: Tensor, mean: &[f32], std: &[f32]) -> Tensor {
     let mean = Tensor::of_slice(mean).view([3, 1, 1]);
@@ -15,7 +20,7 @@ fn normalize_image(image: Tensor, mean: &[f32], std: &[f32]) -> Tensor {
     ((image - &mean) / &std).to_kind(Kind::Float)
 }
 
-pub(crate) fn label_transfer(image_path: String) -> tch::Result<(String)> {
+pub(crate) fn label_transfer(image_path: String) -> Result<String> {
     let model_dir = PathBuf::from_str("./transfer_learning")?;
     let model_path = Path::join(&model_dir, "best_model.pt");
 
@@ -29,17 +34,19 @@ pub(crate) fn label_transfer(image_path: String) -> tch::Result<(String)> {
     let mean = [0.485, 0.456, 0.406];
     let std = [0.229, 0.224, 0.225];
 
-    let img = image::open(image_path)?.to_rgb8();
+    // let img = image::open(image_path)?.to_rgb8();
 
 
-    let resized = image::imageops::resize(&img, 224, 224, image::imageops::FilterType::Triangle);
-    let image: Tensor = tch::vision::image::image_to_tensor(&resized).unsqueeze(0);
+    // let resized = image::imageops::resize(&img, 224, 224, image::imageops::FilterType::Triangle);
+    let resized = imagenet::load_image_and_resize224(image_path)?;
+
+    let image: Tensor = resized.unsqueeze(0);
 
     let normalized_image = normalize_image(image, &mean, &std);
 
     let output = resnet18
-        .forward_t(&normalized_image)
-        .softmax(-1, Kind::Float)?;
+        .forward_t(&normalized_image,false)
+        .softmax(-1, Kind::Float);
 
     // let output =
     //     resnet18.forward_t(&image.unsqueeze(0), /* train= */ false).softmax(-1, tch::Kind::Float); // Convert to probability.
