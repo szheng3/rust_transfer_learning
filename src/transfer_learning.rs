@@ -14,7 +14,7 @@ fn normalize_image(image: Tensor, mean: &[f32], std: &[f32]) -> Tensor {
     ((image - &mean) / &std).to_kind(Kind::Float)
 }
 
-pub(crate) fn label(image_path: String) -> tch::Result<(String)> {
+pub(crate) fn label_transfer(image_path: String) -> tch::Result<(String)> {
     let model_dir = PathBuf::from_str("./transfer_learning")?;
     let model_path = Path::join(&model_dir, "best_model.pt");
 

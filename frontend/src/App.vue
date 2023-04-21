@@ -7,7 +7,7 @@ const links = ref([
   'Summarization',
   'ONNX',
   'Classification',
-
+  'TransferLearning'
 ]);
 
 const router = useRouter()
@@ -21,7 +21,10 @@ const goToDashboard = (link: string) => {
       router.push('/onnx')
       break;
     case 'Classification':
-      router.push('/Classification')
+      router.push('/classification')
+      break;
+    case 'TransferLearning':
+      router.push('/transferclassification')
       break;
     default:
       router.push('/')

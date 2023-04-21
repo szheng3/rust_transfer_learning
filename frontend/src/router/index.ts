@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import SummarizationView from "@/views/SummarizationView.vue";
 import OnnxView from "@/views/OnnxView.vue";
 import Classification from "@/views/Classification.vue";
+import TransferClassification from "@/views/TransferClassification.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,10 +20,16 @@ const router = createRouter({
       component: OnnxView
     },
     {
-      path: '/Classification',
+      path: '/classification',
       name: 'Classification',
       // component: HomeView
       component: Classification
+    },
+    {
+      path: '/transferclassification',
+      name: 'TransferClassification',
+      // component: HomeView
+      component: TransferClassification
     },
     {
       path: '/about',

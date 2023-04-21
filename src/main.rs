@@ -176,7 +176,7 @@ async fn transfer_upload(mut payload: Multipart) -> impl Responder {
     while let Ok(Some(mut field)) = payload.try_next().await {
         match save_file(field).await {
             Ok(file_path) => {
-                let result = image::label(file_path.clone()).expect("TODO: panic message");
+                let result = transfer_learning::label_transfer(file_path.clone()).expect("TODO: panic message");
                 results.push(FileResult {
                     message: result.to_string(),
                 });
