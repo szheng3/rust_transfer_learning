@@ -7,6 +7,7 @@ use futures::StreamExt;
 use image::GenericImageView;
 use serde_json::Value;
 use tch::{nn, vision, Device, Kind, Tensor};
+use tch::nn::ModuleT;
 
 fn normalize_image(image: Tensor, mean: &[f32], std: &[f32]) -> Tensor {
     let mean = Tensor::of_slice(mean).view([3, 1, 1]);
@@ -37,8 +38,12 @@ pub(crate) fn label_transfer(image_path: String) -> tch::Result<(String)> {
     let normalized_image = normalize_image(image, &mean, &std);
 
     let output = resnet18
-        .forward(&normalized_image)
+        .forward_t(&normalized_image)
         .softmax(-1, Kind::Float)?;
+
+    // let output =
+    //     resnet18.forward_t(&image.unsqueeze(0), /* train= */ false).softmax(-1, tch::Kind::Float); // Convert to probability.
+
 
     let best_index = output.argmax(-1, false).int64_value(&[]) as usize;
 
