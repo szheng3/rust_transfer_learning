@@ -29,14 +29,10 @@ pub(crate) fn label_transfer(image_path: String) -> tch::Result<(String)> {
     let std = [0.229, 0.224, 0.225];
 
     let img = image::open(image_path)?.to_rgb8();
+
+
     let resized = image::imageops::resize(&img, 224, 224, image::imageops::FilterType::Triangle);
-    let image: Tensor = Tensor::of_data(
-        &resized.into_raw(),
-        &[1, 3, 224, 224],
-        &[3 * 224 * 224, 224 * 224, 224, 1],
-    )
-        .permute(&[0, 3, 1, 2])?
-        .to_kind(Kind::Float) / 255.0;
+    let image: Tensor = tch::vision::image::image_to_tensor(&resized).unsqueeze(0);
 
     let normalized_image = normalize_image(image, &mean, &std);
 
