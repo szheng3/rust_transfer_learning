@@ -23,21 +23,29 @@ fn normalize_image(image: Tensor, mean: &[f32], std: &[f32]) -> Tensor {
 pub(crate) fn label_transfer(image_path: String) -> Result<String> {
 
     let model_dir = PathBuf::from_str("./transfer_learning")?;
-    let model_path = Path::join(&model_dir, "resnet18.ot");
-    let mut vs = nn::VarStore::new(Device::Cpu);
+    // let model_path = Path::join(&model_dir, "resnet18.ot");
+    let model_path = Path::join(&model_dir, "best_model_scripted.pt");
+    // let mut vs = nn::VarStore::new(Device::Cpu);
+    //
+    // // Then the model is built on this variable store, and the weights are loaded.
+    // let resnet18 = resnet::resnet18(&vs.root(), imagenet::CLASS_COUNT);
+    // vs.load(model_path)?;
+    // let image = imagenet::load_image_and_resize224(image_path)?;
+    // // Apply the forward pass of the model to get the logits and convert them
+    // // to probabilities via a softmax.
+    // let output = resnet18
+    //     .forward_t(&image.unsqueeze(0), /*train=*/ false)
+    //     .softmax(-1, Kind::Float);
+    //
+    // // Finally print the top 5 categories and their associated probabilities.
+    // for (probability, class) in imagenet::top(&output, 5).iter() {
+    //     println!("{:50} {:5.2}%", class, 100.0 * probability)
+    // }
 
-    // Then the model is built on this variable store, and the weights are loaded.
-    let resnet18 = resnet::resnet18(&vs.root(), imagenet::CLASS_COUNT);
-    vs.load(model_path)?;
-    let image = imagenet::load_image_and_resize224(image_path)?;
-    // Apply the forward pass of the model to get the logits and convert them
-    // to probabilities via a softmax.
-    let output = resnet18
-        .forward_t(&image.unsqueeze(0), /*train=*/ false)
-        .softmax(-1, Kind::Float);
-
-    // Finally print the top 5 categories and their associated probabilities.
-    for (probability, class) in imagenet::top(&output, 5).iter() {
+    let image = imagenet::load_image_and_resize(image_path, 256, 256)?;
+    let model = tch::CModule::load(model_path)?;
+    let output = model.forward_ts(&[image.unsqueeze(0)])?.softmax(-1, Kind::Float);
+    for (probability, class) in imagenet::top(&output, 2).iter() {
         println!("{:50} {:5.2}%", class, 100.0 * probability)
     }
 
