@@ -24,13 +24,12 @@ pub(crate) fn label_transfer(image_path: String) -> Result<String> {
 
     let model_dir = PathBuf::from_str("./transfer_learning")?;
     let model_path = Path::join(&model_dir, "resnet18.ot");
-    let mut vs = tch::nn::VarStore::new(tch::Device::Cpu);
+    let mut vs = nn::VarStore::new(Device::Cpu);
 
     // Then the model is built on this variable store, and the weights are loaded.
-    let resnet18 = tch::vision::resnet::resnet18(&vs.root(), imagenet::CLASS_COUNT);
+    let resnet18 = resnet::resnet18(&vs.root(), imagenet::CLASS_COUNT);
     vs.load(model_path)?;
     let image = imagenet::load_image_and_resize224(image_path)?;
-
     // Apply the forward pass of the model to get the logits and convert them
     // to probabilities via a softmax.
     let output = resnet18
