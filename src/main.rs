@@ -150,6 +150,7 @@ async fn upload(mut payload: Multipart) -> impl Responder {
         match save_file(field).await {
             Ok(file_path) => {
                 let result = image::label(file_path.clone()).expect("TODO: panic message");
+                fs::remove_file(file_path.clone())?;
                 results.push(FileResult {
                     message: result.to_string(),
                 });
@@ -178,6 +179,7 @@ async fn transfer_upload(mut payload: Multipart) -> impl Responder {
         match save_file(field).await {
             Ok(file_path) => {
                 let result = transfer::label_transfer(file_path.clone()).expect("TODO: panic message");
+                fs::remove_file(file_path.clone())?;
                 results.push(FileResult {
                     message: result.to_string(),
                 });
