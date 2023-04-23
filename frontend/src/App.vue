@@ -69,7 +69,7 @@ const goToDashboard = (link: string) => {
     >
 
       <div class="text-caption">
-        This project, developed using Rust, comprises four components: Shuai's individual project 2, which summarizes text; individual project 3, which focuses on ONNX; individual project 4, which explores image classification with Resnet; and our team (Shuai Zheng, Yilun Wu, Yucheng Cao) project - Classification. The platform utilizes advanced AI transfer learning algorithms to classify uploaded images into four categories: normal, violence with a gun, porn, and labeled. The model is trained in Python, while the server is built in Rust.
+        This project, developed using Rust, comprises four components: Shuai's individual project 2, which summarizes text; individual project 3, which focuses on ONNX; individual project 4, which explores image classification with Resnet; and our team (Shuai Zheng, Yilun Wu, Yucheng Cao) project - Classification. The platform utilizes advanced AI transfer learning algorithms to classify uploaded images into three categories: normal, violence with a gun, and porn. The model is trained in Python, while the server is built in Rust.
       </div>
 
 

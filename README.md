@@ -10,7 +10,7 @@
 >Shuai Zheng, Yilun Wu, Yucheng Cao
 
 This project aims to build a Rust micro-server that image classification.  The project is built with Rust, libtorch, and hugging-face pretrained models. The project is deployed on kubernetes.
-It utilizes advanced AI transfer learning algorithms to classify uploaded images into four categories: normal, violence with a gun, porn, and labeled. The model is trained in Python, while the server is built in Rust.
+It utilizes advanced AI transfer learning algorithms to classify uploaded images into three categories: normal, violence with a gun, and porn. The model is trained in Python, while the server is built in Rust.
 
 ## Project Goals/Outcomes
 
