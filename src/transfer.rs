@@ -23,84 +23,36 @@ fn normalize_image(image: Tensor, mean: &[f32], std: &[f32]) -> Tensor {
 pub(crate) fn label_transfer(image_path: String) -> Result<String> {
 
     let model_dir = PathBuf::from_str("./transfer_learning")?;
+    let device = Device::cuda_if_available();
+
     // let model_path = Path::join(&model_dir, "resnet18.ot");
     let model_path = Path::join(&model_dir, "best_model_scripted.pt");
-    // let mut vs = nn::VarStore::new(Device::Cpu);
-    //
-    // // Then the model is built on this variable store, and the weights are loaded.
-    // let resnet18 = resnet::resnet18(&vs.root(), imagenet::CLASS_COUNT);
-    // vs.load(model_path)?;
-    // let image = imagenet::load_image_and_resize224(image_path)?;
-    // // Apply the forward pass of the model to get the logits and convert them
-    // // to probabilities via a softmax.
-    // let output = resnet18
-    //     .forward_t(&image.unsqueeze(0), /*train=*/ false)
-    //     .softmax(-1, Kind::Float);
-    //
-    // // Finally print the top 5 categories and their associated probabilities.
-    // for (probability, class) in imagenet::top(&output, 5).iter() {
-    //     println!("{:50} {:5.2}%", class, 100.0 * probability)
-    // }
+    let mut vs = nn::VarStore::new(Device::Cpu);
 
-    let image = imagenet::load_image_and_resize(image_path, 256, 256)?;
+    let image = imagenet::load_image_and_resize224(image_path)?;
+
     let model = tch::CModule::load(model_path)?;
-    let output = model.forward_ts(&[image.unsqueeze(0)])?.softmax(-1, Kind::Float);
-    for (probability, class) in imagenet::top(&output, 2).iter() {
-        println!("{:50} {:5.2}%", class, 100.0 * probability)
+    // let output = model.forward_ts(&[image.unsqueeze(0)])?.softmax(-1, Kind::Float);
+    let output = image.unsqueeze(0).apply(&model).softmax(-1, Kind::Float);
+    println!("{}", output);
+    let best_index = output.argmax(-1, false).int64_value(&[]) as usize;
+    println!("best_index: {}", best_index);
+
+
+    let file = File::open(Path::join(&model_dir, "transfer_learning.json")).unwrap();
+    let reader = BufReader::new(file);
+    let labels: Value = serde_json::from_reader(reader)?;
+    let index_to_name: HashMap<usize, String> = labels
+        .as_array()
+        .unwrap()
+        .iter()
+        .enumerate()
+        .map(|(i, v)| (i, v.as_str().unwrap().to_owned()))
+        .collect();
+    if let Some(class_name) = index_to_name.get(&best_index) {
+        println!("{}",class_name.clone());
+        Ok(class_name.clone())
+    } else {
+        Ok(format!("Class name not found for index: {}", best_index).into())
     }
-
-    Ok("test".to_string())
-    // let model_dir = PathBuf::from_str("./transfer_learning")?;
-    // let model_path = Path::join(&model_dir, "best_model.pt");
-    //
-    // // let model_path = Path::new("./model/best_model.pt");
-    //
-    // let mut vs = nn::VarStore::new(Device::Cpu);
-    // // You should replace the number 1000 with the number of classes in your dataset
-    // let resnet18 = vision::resnet::resnet18(&vs.root(), 3);
-    // vs.load(model_path)?;
-    //
-    // let mean = [0.485, 0.456, 0.406];
-    // let std = [0.229, 0.224, 0.225];
-    //
-    // // let img = image::open(image_path)?.to_rgb8();
-    //
-    //
-    // // let resized = image::imageops::resize(&img, 224, 224, image::imageops::FilterType::Triangle);
-    // let resized = imagenet::load_image_and_resize224(image_path)?;
-    //
-    // let image: Tensor = resized.unsqueeze(0);
-    //
-    // let normalized_image = normalize_image(image, &mean, &std);
-    //
-    // let output = resnet18
-    //     .forward_t(&normalized_image,false)
-    //     .softmax(-1, Kind::Float);
-    //
-    // // let output =
-    // //     resnet18.forward_t(&image.unsqueeze(0), /* train= */ false).softmax(-1, tch::Kind::Float); // Convert to probability.
-    // for (probability, class) in imagenet::top(&output, 2).iter() {
-    //     println!("{:50} {:5.2}%", class, 100.0 * probability)
-    // }
-    // Ok("test".to_string())
-
-    // let best_index = output.argmax(-1, false).int64_value(&[]) as usize;
-    // // println!("best_index: {}", best_index);
-    //
-    // let file = File::open(Path::join(&model_dir, "transfer_learning.json")).unwrap();
-    // let reader = BufReader::new(file);
-    // let labels: Value = serde_json::from_reader(reader)?;
-    // let index_to_name: HashMap<usize, String> = labels
-    //     .as_array()
-    //     .unwrap()
-    //     .iter()
-    //     .enumerate()
-    //     .map(|(i, v)| (i, v.as_str().unwrap().to_owned()))
-    //     .collect();
-    //
-    // if let Some(class_name) = index_to_name.get(&best_index) {
-    //     Ok(class_name.clone())
-    // } else {
-    //     Ok(format!("Class name not found for index: {}", best_index).into())
-    // }
 }

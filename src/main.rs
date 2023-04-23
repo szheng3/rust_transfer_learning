@@ -3,7 +3,7 @@ mod tests;
 mod onnx;
 mod image;
 mod transfer;
-mod training;
+// mod training;
 
 use actix_web::middleware::Logger;
 use actix_web::{get, post, App, HttpResponse, HttpServer, Responder, web};
