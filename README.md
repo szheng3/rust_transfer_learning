@@ -119,6 +119,9 @@ The binary could be downloaded from the release pages. [release](https://github.
 - [x] Benchmark
 - [x] kubernetes deployment
 - [x] logging
+- [x] NLP model
+- [x] Computer vision model
+- [x] onnx model
 
 ## References
 
