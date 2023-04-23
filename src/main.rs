@@ -196,7 +196,6 @@ async fn transfer_upload(mut payload: Multipart) -> impl Responder {
         HttpResponse::Ok().json(Json(results.into_iter().next().unwrap()))
     }
 }
-
 #[actix_web::main]
 async fn main() -> Result<(), ExitFailure> {
     if std::env::var_os("RUST_LOG").is_none() {
