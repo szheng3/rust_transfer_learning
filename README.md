@@ -6,7 +6,7 @@
 [![publish to Dockerhub](https://github.com/szheng3/rust_transfer_learning/actions/workflows/publish.yml/badge.svg)](https://github.com/szheng3/rust_transfer_learning/actions/workflows/publish.yml)
 [![Benchmark](https://github.com/szheng3/rust_transfer_learning/actions/workflows/bench.yml/badge.svg)](https://github.com/szheng3/rust_transfer_learning/actions/workflows/bench.yml)
 
-# Team Project: Rust Micro-Server for Image Classification
+# Team Project: Rust Micro-Server for transfer learning in Classification
 >Shuai Zheng, Yilun Wu, Yucheng Cao
 
 This project aims to build a Rust micro-server that image classification.  The project is built with Rust, libtorch, and hugging-face pretrained models. The project is deployed on kubernetes.
