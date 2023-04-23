@@ -45,7 +45,6 @@ kubectl apply -f .
 ```
 ![image](./assets/k8s1.png)
 
-
 ## Docker(Recommended)
 
 * This repo main branch is automatically published to Dockerhub with [CI/CD](https://github.com/szheng3/rust_transfer_learning/actions/workflows/publish.yml), you can pull the image from [here](https://hub.docker.com/repository/docker/szheng3/sz-rust-ml/general)
