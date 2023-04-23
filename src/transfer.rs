@@ -27,9 +27,9 @@ pub(crate) fn label_transfer(image_path: String) -> Result<String> {
 
     // let model_path = Path::join(&model_dir, "resnet18.ot");
     let model_path = Path::join(&model_dir, "best_model_scripted.pt");
-    let mut vs = nn::VarStore::new(Device::Cpu);
+    // let mut vs = nn::VarStore::new(Device::Cpu);
 
-    let image = imagenet::load_image_and_resize224(image_path)?;
+    let image = imagenet::load_image_and_resize224(image_path)?.to_device(device);
 
     let model = tch::CModule::load(model_path)?;
     // let output = model.forward_ts(&[image.unsqueeze(0)])?.softmax(-1, Kind::Float);
