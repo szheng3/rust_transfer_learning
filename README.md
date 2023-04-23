@@ -1,10 +1,10 @@
 
-[![Tests](https://github.com/szheng3/rust-individual-project-4/actions/workflows/tests.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/tests.yml)
-[![Build binary release](https://github.com/szheng3/rust-individual-project-4/actions/workflows/release.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/release.yml)
-[![Clippy](https://github.com/szheng3/rust-individual-project-4/actions/workflows/lint.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/lint.yml)
-[![Rustfmt](https://github.com/szheng3/rust-individual-project-4/actions/workflows/rustfmt.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/rustfmt.yml)
-[![publish to Dockerhub](https://github.com/szheng3/rust-individual-project-4/actions/workflows/publish.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/publish.yml)
-[![Benchmark](https://github.com/szheng3/rust-individual-project-4/actions/workflows/bench.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/bench.yml)
+[![Tests](https://github.com/szheng3/rust_transfer_learning/actions/workflows/tests.yml/badge.svg)](https://github.com/szheng3/rust_transfer_learning/actions/workflows/tests.yml)
+[![Build binary release](https://github.com/szheng3/rust_transfer_learning/actions/workflows/release.yml/badge.svg)](https://github.com/szheng3/rust_transfer_learning/actions/workflows/release.yml)
+[![Clippy](https://github.com/szheng3/rust_transfer_learning/actions/workflows/lint.yml/badge.svg)](https://github.com/szheng3/rust_transfer_learning/actions/workflows/lint.yml)
+[![Rustfmt](https://github.com/szheng3/rust_transfer_learning/actions/workflows/rustfmt.yml/badge.svg)](https://github.com/szheng3/rust_transfer_learning/actions/workflows/rustfmt.yml)
+[![publish to Dockerhub](https://github.com/szheng3/rust_transfer_learning/actions/workflows/publish.yml/badge.svg)](https://github.com/szheng3/rust_transfer_learning/actions/workflows/publish.yml)
+[![Benchmark](https://github.com/szheng3/rust_transfer_learning/actions/workflows/bench.yml/badge.svg)](https://github.com/szheng3/rust_transfer_learning/actions/workflows/bench.yml)
 
 # Individual Project 4 - Rust micro-server for image classification
 
@@ -46,7 +46,7 @@ kubectl apply -f .
 
 ## Docker(Recommended)
 
-* This repo main branch is automatically published to Dockerhub with [CI/CD](https://github.com/szheng3/rust-individual-project-4/actions/workflows/publish.yml), you can pull the image from [here](https://hub.docker.com/repository/docker/szheng3/sz-rust-ml/general)
+* This repo main branch is automatically published to Dockerhub with [CI/CD](https://github.com/szheng3/rust_transfer_learning/actions/workflows/publish.yml), you can pull the image from [here](https://hub.docker.com/repository/docker/szheng3/sz-rust-ml/general)
 ```
 docker pull szheng3/sz-rust-ml:latest
 ```
@@ -96,7 +96,7 @@ Github Actions configured in .github/workflows
 
 
 ## GitHub releases
-The binary could be downloaded from the release pages. [release](https://github.com/szheng3/rust-individual-project-4/releases)
+The binary could be downloaded from the release pages. [release](https://github.com/szheng3/rust_transfer_learning/releases)
 
 ## Benchmark Results
 ![Benchmark](./assets/report2.png)
