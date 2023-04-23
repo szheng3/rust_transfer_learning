@@ -25,7 +25,7 @@ It utilizes advanced AI transfer learning algorithms to classify uploaded images
 ![image](./assets/ml.png)
 ## Demo
 * [https://apiv2.sszzz.me](https://apiv2.sszzz.me)
-  ![image](./assets/demo3.png)
+  ![image](./assets/demo4.png)
 
 
 ## Kubernetes Deployment
