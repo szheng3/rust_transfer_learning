@@ -26,8 +26,8 @@ const router = createRouter({
       component: Classification
     },
     {
-      path: '/transferclassification',
-      name: 'TransferClassification',
+      path: '/transfer',
+      name: 'transfer',
       // component: HomeView
       component: TransferClassification
     },

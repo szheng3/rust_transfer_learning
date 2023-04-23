@@ -7,7 +7,7 @@ const links = ref([
   'Summarization',
   'ONNX',
   'Classification',
-  'TransferLearning'
+  'Team project - classification'
 ]);
 
 const router = useRouter()
@@ -23,8 +23,8 @@ const goToDashboard = (link: string) => {
     case 'Classification':
       router.push('/classification')
       break;
-    case 'TransferLearning':
-      router.push('/transferclassification')
+    case 'Team project - classification':
+      router.push('/transfer')
       break;
     default:
       router.push('/')
@@ -69,14 +69,14 @@ const goToDashboard = (link: string) => {
     >
 
       <div class="text-caption">
-        This project aims to build a Rust app that summarizes text, based on the common task of reading and
-        summarizing books among students.
+        This project, developed using Rust, comprises four components: Shuai's individual project 2, which summarizes text; individual project 3, which focuses on ONNX; individual project 4, which explores image classification with Resnet; and our team (Shuai Zheng, Yilun Wu, Yucheng Cao) project - Classification. The platform utilizes advanced AI transfer learning algorithms to classify uploaded images into four categories: normal, violence with a gun, porn, and labeled. The model is trained in Python, while the server is built in Rust.
       </div>
 
 
       <div class="text-caption">
         {{ new Date().getFullYear() }} —<a href="https://sszzz.me">Shuai Zheng</a>
       </div>
+
     </v-footer>
   </v-app>
 </template>

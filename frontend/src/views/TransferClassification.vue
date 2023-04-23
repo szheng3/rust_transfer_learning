@@ -87,6 +87,7 @@ const upload = async () => {
         </v-sheet>
       </v-col>
       <v-col cols="12" sm="6">
+
         <v-card class="pa-4" v-if="showResult" variant="flat">
           <v-card-title class="headline">Classification Result</v-card-title>
           <v-card-text>{{ result.message }}</v-card-text>
@@ -111,6 +112,7 @@ const upload = async () => {
       </v-col>
     </v-row>
   </v-container>
+
 </template>
 
 <style>
@@ -119,5 +121,10 @@ const upload = async () => {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
+}
+.project-description {
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: justify;
 }
 </style>
